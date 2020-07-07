@@ -68,9 +68,6 @@ dfp = pd.read_csv("vector_p.csv", sep=',', header=None)
 vector_p = dfp.values
 vector_p = np.delete(vector_p, (0), axis=0)
 
-dfi = pd.read_csv("vector_i.csv", sep=',', header=None)
-vector_i = dfi.values
-vector_i = np.delete(vector_i, (0), axis=0)
 
-cal_metapath(vector_a, vector_b, vector_p, "vector_m.csv")
-print("done")
+m = cal_metapath(vector_a, vector_b, vector_p)
+
