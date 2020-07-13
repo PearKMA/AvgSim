@@ -3,20 +3,17 @@ import numpy as np
 import pandas as pd
 
 def avg_sim(listAB, listEF, listCoordinate, listCoordinate2):
-    rwBF = 0      # RW(B -> F)
-    for paper1 in listAB:
-        # get list paper 2 (C)
-        listBC = [item[1] for item in listCoordinate if item[0] == paper1]
-        rwCF = 0       # RW(C -> F)
+    rwBF = 0    
+    for i in listAB:
+        listBC = [item[1] for item in listCoordinate if item[0] == i]
+        rwCF = 0    
         if listBC:
-            for paper2 in listBC:
-                # get list paper 3 (D)
-                listCD = [item[1] for item in listCoordinate2 if item[0] == paper2]
+            for j in listBC:
+                listCD = [item[1] for item in listCoordinate2 if item[0] == j]
                 if listCD:
                     rwDEF = 0
-                    for paper3 in listCD:
-                        # get list paper 4 (E)
-                        listDE = [item[1] for item in listCoordinate if item[0] == paper3]
+                    for k in listCD:
+                        listDE = [item[1] for item in listCoordinate if item[0] == k]
                         if listDE:
                             rwDEF += len(set(listDE) & set(listEF)) / len(listDE)
                     rwCF += rwDEF / len(listCD)
@@ -25,27 +22,25 @@ def avg_sim(listAB, listEF, listCoordinate, listCoordinate2):
 
 
 def cal_metapath(matrix_a, matrix_b, matrix_c):
-    # get list tuple (author,paper) -- (author write paper)
+    # get list tuple (app,api) 
     arr = np.where(matrix_a == 1)
     listOfCoordinates = list(zip(arr[0], arr[1]))
-    # get list tupe (paper1,paper2) -- (paper 1, 2 same author)
+    # get list tupe (api,api) 
     arr2 = np.where(matrix_b == 1)
     listOfCoordinates2 = list(zip(arr2[0], arr2[1]))
-    # get list tupe (paper1,paper2) -- (paper 1, 2 same subject)
+    # get list tupe (api,api)
     arr3 = np.where(matrix_c == 1)
     listOfCoordinates3 = list(zip(arr3[0], arr3[1]))
 
-    matrix_m = []          # matrix m
+    matrix_m = []         
     authors = np.size(matrix_a, 0)
     for author_i in range(authors):
-        row = []        # row in matrix m
+        row = []       
         for author_j in range(authors):
             if author_i == author_j:
                 row.append(1)
             else:
-                # get list paper 1 (B)
                 listAB = [item[1] for item in listOfCoordinates if item[0] == author_i]
-                # get list paper 4 (E)
                 listFE = [item[1] for item in listOfCoordinates if item[0] == author_j]
                 if not listAB:
                     row.append(0)
