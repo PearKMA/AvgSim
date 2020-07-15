@@ -51,6 +51,6 @@ d = np.array([
   [0,1,1,0],
   [0,0,0,1]
 ])
-m = b @ c @ b
+m = b | c | b
 
 print(cal_metapath(a,m))
